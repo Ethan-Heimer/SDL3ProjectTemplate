@@ -4,123 +4,14 @@ This is just a simple template top get started with SDL3 projects.
 
 ## Installation
 
-This has been tested with makefiles- other build systems may need extra modifications
-
-The following is a bash script that you can use to create a new template project, it'll act as a project manager and allow you to easly configure new projects. 
-Copy and paste the following code into a bash script thats in the root directory of where your SDL3 projects will live. 
-It can be named whatever make sence to you, but it must have .sh at the end. 
-
+Just Clone this repo! 
 ```
-#!/bin/bash
-
-removename=""
-projectname=$dirname
-newname=""
-
-dobuild=0
-doclone=0
-doremove=0
-dorename=0
-
-while getopts "bd:gc:p:ro:n:" opt; do
-    case $opt in
-        # build flags
-        b) dobuild=1;;
-
-        c) projectname=$OPTARG
-           doclone=1;;
-
-        d) removename=$OPTARG
-           doremove=1;;
-
-        #rename flags
-        r) dorename=1 ;;
-
-        o) projectname=$OPTARG ;;
-
-        n) newname=$OPTARG ;;
-
-        \?) # Handle invalid options
-            echo "Invalid option: -$OPTARG" >&2
-            usage
-            ;;
-    esac
-done
-
-if [[ dorename -eq 1 ]]; then
-    echo $projectname
-    echo $newname
-
-    cd $projectname
-    cat CMakeLists.txt | sed -i s/$projectname/$newname/g CMakeLists.txt
-    cd .var
-    echo $newname > name.data
-
-    cd ../..
-    exit 0
-fi
-
-if [[ doremove -eq 1 ]]; then
-    read -p "Are you sure you want to remove $removename? (y/n): " ans
-    if [[ $ans == "y" ]]; then
-        rm -rf $removename
-    fi
-fi
-
-if [[ doclone -eq 1 ]]; then
-    git clone https://github.com/Ethan-Heimer/SDL3Template
-    mv SDL3Template $projectname
-
-    cd $projectname
-    #change project name for main CMake file
-    cat CMakeLists.txt | sed -i s/SDL3CMake/"$projectname"/g CMakeLists.txt
-    cd .var
-    echo $projectname > name.data
-    cd ../..
-
-fi
-
-if [[ dobuild -eq 1  ]]; then
-    cd $projectname
-
-    mkdir build
-
-    ./build.sh
-
-    cd ..
-    rm -rf .git
-    cd ..
-fi
-exit 0
+git clone https://github.com/Ethan-Heimer/SDL3ProjectTemplate
 ```
-After the script is created run the following command to make it executable:\
-`chmod +x YOU_SCRIPT_HERE`
+## Renaming Your Project
 
-The script should work now! You can run the script with `./YOUR_SCRIPT_NAME`
-
-### Bash Script Flags
-
-The bash script can 
-- Create new projects
-- Rename projects
-- Remove projects
-
-### Create New Project
-- `-c`: NEW_PROJECT_NAME: will clone template from this repo and rename it too the new project name
-- `-b`: will automatically build the new project after it has been cloned
-
-### Delete Project 
-- `-d PROJECT_NAME`: deletes `PROJECT_NAME`
-
-### Renaming a Project
-- `-r -o PROJECT_DIR_NAME -n NEW_NAME`: Renames the project in `PROJECT_DIR_NAME` to `NEW_NAME`
-
-### Example
-
-The following command will install and build a new project, as well as initialize git:
-```
-./YOUR_SCRIPT_NAME -c "New Project" -b
-```
+A project config file can be found in `.var/env.txt`, where the `PROJECT_NAME` env variable
+represents the name if the project.
 
 ## Building a project
 There are 2 ways a project can be built with this configuration.
@@ -140,16 +31,6 @@ If you need a fully built `CMakeLists.txt` file, run the following bash scripts:
 - `./.bash/generateDirCMakeFiles.sh`
 
 You can find these bash scripts in `./.bash`.
-
-The manual way is outlined below:
-
-### Manual Config
-### Changing the project name 
-
-The Default name for the template project is `SDL3CMake`. This name can be changed by 
-changing the every occurance of `SDL3CMake` to the desired name. Every CMakeLists.txt file will need this named changed to work properly
-
-(I have not found a better way to do this yet)
 
 ### Adding Extra External Libs From Github
 
