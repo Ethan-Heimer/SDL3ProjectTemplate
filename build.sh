@@ -36,4 +36,6 @@ echo "Cleaning Up..."
 cd ..
 rm ./application/CMakeLists.txt
 
-
+#open
+cd build/bin
+./$(echo $ProjectName | sed 's/"//g')

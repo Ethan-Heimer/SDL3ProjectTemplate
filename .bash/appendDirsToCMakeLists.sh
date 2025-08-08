@@ -4,7 +4,7 @@ CMakeSRC=$1
 
 cd $CMakeSRC
 shopt -s globstar
-for d in ./src/project/*/; do
+for d in ./src/project/**/; do
     if [[ -d "$d" ]] && [[ $d != ./src/project/assets/ ]]; then
         echo "Appending directory: $d" 
         echo "add_subdirectory("$d")" >> CMakeLists.txt
